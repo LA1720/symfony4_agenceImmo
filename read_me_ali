@@ -1,0 +1,70 @@
+:composer create-project symfony/website-skeleton AgenceImmo
+
+.env.local
+
+:symfony serve
+
+video 2 =>   https://www.youtube.com/watch?v=TjHRk1Kk4JI  (jusqu'au 2 premiers pages et nav bar bootstrap premier partie)
+
+go to routes.yaml
+
+video 3 =>   https://www.youtube.com/watch?v=Gv7EUDzq2Z8
+
+Create your database : php bin/console doctrine:database:create
+
+make your first entity/database table : php bin/console make:entity => create table :Property and add some champs title, description.
+
+lance : php bin/console make:migration    and    :php bin/console doctrine:migrations:migrate. now check in phpMyAdmin
+
+go to Entity / Property.php at sold @ORM, here we will add option {false}. it means par default it show not house is not sold. but when will will change something in database we need to delete Migration  / version and regenerate by : php bin/console make:migration.
+
+now we will insert all informationin our property entity/ table in database by ->set method in Controller / PropertyController at our index function. let's go there!
+
+how to use slugify: composer require cocur/slugify
+                   in Entity / Property.php place   use Cocur\Slugify\Slugify;
+                   make a getSlug function after setTitle and place it in view.
+
+
+                                Admin
+
+Create a new Admin / PropertyController.php
+
+make your namespace App\Controller\Admin and use of AbstractController  
+
+create function __construct()
+
+create function index()
+
+create the view of admin in Admin / index.html.twig 
+
+createa form with : bin/console make:form => PropertyType => Property
+
+now go to AdminPropertycontroller and add function createForm() inside the function edit and add use App\Form\PropertyType;
+
+Now go to Admin / edit.html.twig and generate this form by form_start / form_end 
+
+To pimp your form, now go to config / packages / twig.yaml and add form_themes : ['bootstrap_4_layout.html.twig']
+
+To translate your form add 'translation_domain' => 'forms' at Form / PropertyType.php, function configureOptions()
+    => create tests / translations / form.fr.yaml
+
+To process function edit() go to Admin / AdminPropertyController in edit function and add some come as handleRequest
+
+Create _fomr.html.twig, copy the form from edit.html.twig and paste here 
+
+now go to AdminPropertycontroller and add function delete() 
+now go to index.html.twig and add tiny delete form just after the edit button and add token to securise the delete method 
+let check by F12 to verify the presence our token and go to the function delete() and add the security supp
+and add reconfermation message in index.html.twig inside the <form.....>
+add some message confirmation to create and edit function by $this->addFlush() in our AdminPropertyController
+
+Now we will add validation process to our form min or max ect.. so let's go to Entity / Property.php and add this use Symfony\Component\Validator\Constraints as Assert;
+add in annotation as like * @Assert\Range(min=10, max=400)
+
+to avoid from double creation for our admin we will add use Symfony\Bridge\Doctrine\Validator\Constraints\uniqueEntity; and add @UniqueEntity("title) just before class Property{} 
+
+
+
+                            
+
+

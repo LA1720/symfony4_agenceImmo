@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %} 
+{# add block body and put the h1 welcome inside and lance the website and it's working!!#}
+{# now go to copy bootstrap cdn from bootstrap site and copy to in base.html.twig #}
+
+{% block title 'Agence Lorem ipsum' %}
+
+{% block body %}
+<div class="jumbotron tetx-center"> 
+{# now add bootstrap navbar and place it at base.html.twig #}
+
+<h1>Agence Lorem ipsum</h1>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea voluptate quos, itaque accusamus animi voluptatum harum,
+ eligendi porro corporis maxime dicta rerum expedita voluptatibus, quae omnis vitae hic pariatur velit.</p>
+
+</div>
+
+<div class="container">
+    <h2>Les derniers biens</h2>
+    <div class="row flex">
+        {% for property in properties %}
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{ path('property.show',{id: property.id, slug: property.slug}) }}">{{property.title}}</a>
+                        </h5>
+
+                        <p class="card-text">{{property.city(property.postalCode)}}</p>
+                        <div class="text-primary" style="font-weight:bold;font-size: 2rem;">{{property.getFormattedPrice}} $</div> <!--goto property.php to check the getFormattedPrice by ali-->
+
+                    </div>
+                </div>            
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{# go back to Homecontroller and lance your web page #}

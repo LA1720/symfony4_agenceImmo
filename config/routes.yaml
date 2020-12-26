@@ -1,0 +1,11 @@
+# home: 
+#   path: /
+#   controller: App\Controller\HomeController::index
+
+
+# home: =  name(cause it's our home page)
+# path: / = route (for our address bar / is the (chemain))
+# controller: = this is the class where we can found our functions
+  #  Go to the Controller and make file HomeController
+
+
