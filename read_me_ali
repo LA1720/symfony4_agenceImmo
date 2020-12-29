@@ -114,6 +114,20 @@ place {{ knp_pagination_render(pagination) }} in index.html.twig
 now go to config / packages / test / knp_paginator.yml and modify templates: pagination: line 
 
                 
+                        Basic filtre 
+                To create an entity / table for research
+                To create a form for research
+                add or modify in controller
+
+Create a class manually in Entity / PropertySearch.php
+run: bin/console make:form => PropertySearchType => \App\Entity\PropertySearch 
+now go to Form / PropertySearchType and edit
+now go to PropertyController.php and index.html.twig and edit
+Go to PropertySearchType.php and add function getBlockPrefix()
+go to PropertyController.php, place $search as parameter in function index() => findAllVisibleQuery($search) and now go to Propertyrepository.php =>  to edit function findAllvisibleQuery()
+
+go to Entity / PropertySearch and add Assert\range(min=10, max=400) with use for to show the limit in search bar par example (must be in 10 to 400)
+
 
 
 

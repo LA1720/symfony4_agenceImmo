@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use Doctrine\ORM\Query;
 use App\Entity\Property;
+use App\Entity\PropertySearch;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -28,12 +29,24 @@ class PropertyRepository extends ServiceEntityRepository
      * @return Query
      */
 
-    public function findAllVisibleQuery(): Query // here :array means the result should be in array type
+    public function findAllVisibleQuery(PropertySearch $search): Query // here :array means the result should be in array type
         {
-            return $this->findVisibleQuery() //This private function findVisibleQuery replaced these 2 lines in comments!!
+            
+            $query = $this->findVisibleQuery(); //This private function findVisibleQuery replaced these 2 lines in comments!!
                     // -> createQueryBuilder('p')
                     // ->where('p.sold = false')
-                   ->getQuery();
+                    if ($search->getMaxPrice()) {
+                        $query = $query
+                                    ->andWhere('p.price <= :maxprice')
+                                    ->setParameter('maxprice', $search->getMaxPrice());
+                    }
+                    if ($search->getMinSurface()) {
+                        $query = $query
+                                    ->andWhere('p.surface <= :minsurface')
+                                    ->setParameter('minsurface', $search->getMinSurface());
+                    }
+
+                   return $query->getQuery();
         }  
 //now go back to our PropertyController and use this findAllVisible() method in index() exm..
 // $property = $this->repository->findAllVisible(); and add (ObjectManager $em) in __construct and
