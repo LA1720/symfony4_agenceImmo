@@ -63,8 +63,42 @@ add in annotation as like * @Assert\Range(min=10, max=400)
 
 to avoid from double creation for our admin we will add use Symfony\Bridge\Doctrine\Validator\Constraints\uniqueEntity; and add @UniqueEntity("title) just before class Property{} 
 
+                    Security or firewall
+The bundle security is already installed by default when we create our project by --full
+
+now go to config / package / security.yaml and personalise your admin/user login system
+
+make your User entity/table to save our login name and password : bin/console make:entity User => username => password
+
+make migration : bin/console make:migration
+
+now go to security.yaml and add your config from_database:
+                                                    entity:
+                                                        class: App\Entity\User
+                                                        property: username or email
+
+now go to Entity / User.php and add implements UserInterface,\Serializable with getRoles(), getSalt(), eraseCredentials(), serialize(), unserialize().
+
+now create Controller / SecurityController.php
+create security/login.html.twig and add login form
+now in security.yaml add form_login:
+                            check_path: login 
+
+For logout add logout:
+                path: /logout
+                target: / 
+        and add a route in routes.yaml
+                logout:
+                    path: /logout
+
+Now go to security.yaml and crypte the encoders:
+now fill your database with fixtures by : bin/console make:fixtures
+
+again launch bin/console make:fixtures => UserFixtures and go there to customize and 
+launch bin/console doctrine:fixtures:load
+
+                
 
 
-                            
 
 
