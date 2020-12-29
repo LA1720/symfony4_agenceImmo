@@ -6,9 +6,11 @@ namespace App\Controller;
 use App\Entity\Property;
 use App\Repository\PropertyRepository;
 use Doctrine\Persistence\ObjectManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class PropertyController extends AbstractController
 {
@@ -36,7 +38,7 @@ class PropertyController extends AbstractController
      * @Route("/biens", name="property.index")
      * @return Response
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
 //         $property = new Property(); //Make the new instance Entity / Property.php
 //         $property-> setTitle("Mon premier bien")
@@ -72,7 +74,11 @@ class PropertyController extends AbstractController
 
 //after our example above now we will creat our own method to get our personalised datas. maybe we can make a method to get al the houses by not sold ({options=sold'false'})!! so this new method we have to create in our Repository / PropertyRepository.php with an alias or parameter ('p') where ...., Exp method findAllVisible() with queryBilder let's go there//
                  
-                $property = $this->repository->findAllVisible();
+                $properties = $paginator->paginate(
+                    $this->repository->findAllVisibleQuery(),
+                    $request->query->getInt('page', 1),
+                     12
+                );
                 // dd($property);
                 // $property[0]->setSold(true);
                 // $this->em->flush();
@@ -80,7 +86,8 @@ class PropertyController extends AbstractController
 
 
                  return $this->render('property/index.html.twig', [
-                     'current_menu' => 'properties'
+                     'current_menu' => 'properties',
+                     'properties' => $properties
                      ]);
     }
 

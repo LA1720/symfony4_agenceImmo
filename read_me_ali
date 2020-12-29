@@ -63,8 +63,58 @@ add in annotation as like * @Assert\Range(min=10, max=400)
 
 to avoid from double creation for our admin we will add use Symfony\Bridge\Doctrine\Validator\Constraints\uniqueEntity; and add @UniqueEntity("title) just before class Property{} 
 
+                    Security or firewall
+The bundle security is already installed by default when we create our project by --full
+
+now go to config / package / security.yaml and personalise your admin/user login system
+
+make your User entity/table to save our login name and password : bin/console make:entity User => username => password
+
+make migration : bin/console make:migration
+
+now go to security.yaml and add your config from_database:
+                                                    entity:
+                                                        class: App\Entity\User
+                                                        property: username or email
+
+now go to Entity / User.php and add implements UserInterface,\Serializable with getRoles(), getSalt(), eraseCredentials(), serialize(), unserialize().
+
+now create Controller / SecurityController.php
+create security/login.html.twig and add login form
+now in security.yaml add form_login:
+                            check_path: login 
+
+For logout add logout:
+                path: /logout
+                target: / 
+        and add a route in routes.yaml
+                logout:
+                    path: /logout
+
+Now go to security.yaml and crypte the encoders:
+now fill your database with fixture by : bin/console make:fixture
+
+again launch bin/console make:fixture => UserFixtures and go there to customize and 
+launch bin/console doctrine:fixture:load
+
+                        paginer les biens / filled automaticly by fixture
+: bin/console make:fixture => PropertyFixture 
+: composer require fzaninotto/faker  and go to  edit this PropertyFixtures 
+
+now to go PropertyController and edit for to show all houses in in our page "Acheter"
+go to Property / index.html.twig and connect to show
+
+launch : composer require knplabs/knp-paginator-bundle
+create packages / knp_paginator.yml
+copy and paste the configaration example yaml from git gub of knp paginator
+go to PropertyRipository.php and modify the findAllVisible to Query
+go to PropertyController.php and add parameter paginator interface in function index 
+place {{ knp_pagination_render(pagination) }} in index.html.twig
+
+now go to config / packages / test / knp_paginator.yml and modify templates: pagination: line 
+
+                
 
 
-                            
 
 

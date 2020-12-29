@@ -8,4 +8,7 @@
 # controller: = this is the class where we can found our functions
   #  Go to the Controller and make file HomeController
 
+logout: 
+  path: /logout
+
 
