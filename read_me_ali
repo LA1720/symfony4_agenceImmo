@@ -92,10 +92,26 @@ For logout add logout:
                     path: /logout
 
 Now go to security.yaml and crypte the encoders:
-now fill your database with fixtures by : bin/console make:fixtures
+now fill your database with fixture by : bin/console make:fixture
 
-again launch bin/console make:fixtures => UserFixtures and go there to customize and 
-launch bin/console doctrine:fixtures:load
+again launch bin/console make:fixture => UserFixtures and go there to customize and 
+launch bin/console doctrine:fixture:load
+
+                        paginer les biens / filled automaticly by fixture
+: bin/console make:fixture => PropertyFixture 
+: composer require fzaninotto/faker  and go to  edit this PropertyFixtures 
+
+now to go PropertyController and edit for to show all houses in in our page "Acheter"
+go to Property / index.html.twig and connect to show
+
+launch : composer require knplabs/knp-paginator-bundle
+create packages / knp_paginator.yml
+copy and paste the configaration example yaml from git gub of knp paginator
+go to PropertyRipository.php and modify the findAllVisible to Query
+go to PropertyController.php and add parameter paginator interface in function index 
+place {{ knp_pagination_render(pagination) }} in index.html.twig
+
+now go to config / packages / test / knp_paginator.yml and modify templates: pagination: line 
 
                 
 
