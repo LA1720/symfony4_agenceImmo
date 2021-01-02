@@ -150,3 +150,36 @@ Go to Entity / PropertySearch.php and add private options => getter and setter w
 Go to property / index.html.twig and add options form
 
 Go to Propertyrepository and connect options with property search bar
+
+                                    Vich upload / photo
+
+Go to flexsymfony.com and => upload => vich/uploader-bundle 
+run: composer require vich/uploader-bundle
+Go to Packages / test / vich_uploader.yaml and edit 
+Go to package / vich_uploader.yaml  and edit
+Now go to Entity / property.php and edit go to the documentation copy and paste priivate,  getter and setter, annotation and use
+Go to Form / PropertyType and add ->add() and use
+Go to property / _form.html.twig and add the image upload form line
+run : bin/console make:migration and check in navigator
+
+Now we will make unique id for our images, go to flexsymfony.com => github of vich_uploader => namer.md => copy Vich\uploaderBundle\naming\uniqidName;
+Go to vich_uploader.yaml and add namer: Vich\UploaderBundle\Naming\UniqidNamer 
+check it in navigator and public / images
+Now to show the image in our products pages go to  property / _property.html.twig and add
+
+Now we redimension our images, go to flexsymfony.com => imag without (e)!
+:run composer require liip/imagine-bundle
+Go to config / package / liip_imagine.yaml and edit => #### now go to property /  _property.html.twig and add this filter in  img src !!
+
+now we will add the image format ristriction as like jpeg, png, go to Property.php and in private imageFile add @Assert
+
+######now we will make a logic that when we will remove images from products, automaticlly image shound be remove from cache
+go to Admin / AdminPropertyController and make this logic in function edit
+check it in the navigator###
+OR
+##Go to doctrine documentation => ORM => 2.6 => Events => Entity listener##
+But we will use another method to do this and we will make our subscriberListener to get empty our cache after remove any picture
+Create Src / Listener / ImageCacheSubsriber.php
+ Go to service.yaml and add App\listener\ImageCacheSubscriber: line below
+
+
