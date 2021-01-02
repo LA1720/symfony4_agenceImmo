@@ -47,4 +47,6 @@ services:
     # Remove those codes from line 35 to 38 and come back to HomeController at line 18 and add Environtent twig inside the parameter construct, add use and lance the website and its working at the same way!! Now go to the page home.html.twig at line 1
 
     
-    
+    App\Listener\ImageCacheSubscriber:
+        tags:
+        - { name: doctrine.event_subscriber }

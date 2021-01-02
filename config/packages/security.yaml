@@ -1,14 +1,16 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        from_database:
-            entity:
-                class: App\Entity\User
-                property: username
-                # users:
-                #     demo:
-                #         password: demo
-                #         roles: ROLE_ADMIN
+        in_memory:
+            memory:
+                users:
+                    demo:
+                        password: demo
+                        roles: ROLE_ADMIN
+                # from_database:
+                #     entity:
+                #         class: App\Entity\User
+                #         property: username
 
     # now go to Entity / User.php and add some code
 
@@ -18,17 +20,15 @@ security:
             security: false
         main:
             anonymous: true
-
-            logout:
-                path: /logout
-                target: / 
-
+            # lazy: true
+            # provider:
 
             # activate different ways to authenticate
 
             # http_basic: true
 
             # https://symfony.com/doc/current/security.html#firewalls-authentication
+            # form_login: true
             form_login:
                 check_path: login 
 
@@ -42,7 +42,5 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
 
     encoders:
-        App\Entity\User:
-            algorithm: bcrypt
-            cost: 12
-
+        Symfony\Component\Security\Core\User\User: plaintext
+    #     App\Entity\User: plaintext

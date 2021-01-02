@@ -4,13 +4,15 @@ namespace App\Controller;
 
 
 use App\Entity\Property;
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
 use App\Repository\PropertyRepository;
 use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class PropertyController extends AbstractController
 {
@@ -74,10 +76,14 @@ class PropertyController extends AbstractController
 
 //after our example above now we will creat our own method to get our personalised datas. maybe we can make a method to get al the houses by not sold ({options=sold'false'})!! so this new method we have to create in our Repository / PropertyRepository.php with an alias or parameter ('p') where ...., Exp method findAllVisible() with queryBilder let's go there//
                  
+                $search = new PropertySearch();
+                $form = $this->createForm(PropertySearchType::class, $search);
+                $form->handleRequest($request);
+
                 $properties = $paginator->paginate(
-                    $this->repository->findAllVisibleQuery(),
-                    $request->query->getInt('page', 1),
-                     12
+                    $this->repository->findAllVisibleQuery($search),
+                    $request->query->getInt('page',1),
+                    12
                 );
                 // dd($property);
                 // $property[0]->setSold(true);
@@ -87,7 +93,8 @@ class PropertyController extends AbstractController
 
                  return $this->render('property/index.html.twig', [
                      'current_menu' => 'properties',
-                     'properties' => $properties
+                     'properties' => $properties,
+                     'form' => $form->createView()
                      ]);
     }
 
